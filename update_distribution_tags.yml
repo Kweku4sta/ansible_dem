@@ -1,4 +1,7 @@
 ---
+# ansible-playbook your_playbook.yml --tags "update_debian"
+# ansible-playbook your_playbook.yml --tags "update_redhat"
+
 - hosts: hostgroup1
   tasks:
     - name: Update Ubuntu/Debian
