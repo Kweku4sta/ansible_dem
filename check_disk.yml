@@ -1,0 +1,18 @@
+---
+- hosts: hostgroup1
+  tasks:
+    - name: Check disk usage
+      shell: df -h | awk '{if($5+0 > 40) print $0}'
+      register: disk_usage
+
+    - name: Send message to Discord if disk usage is more than 40%
+      uri:
+        url: https://discord.gg/bd8gPsbxEQ
+        method: POST
+        headers:
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          content: 'Disk usage is more than 40% on the following servers:\n{{ disk_usage.stdout }}'
+      when: disk_usage.stdout != ""
+
