@@ -1,0 +1,14 @@
+---
+- hosts: hostgroup1
+  vars_files:
+    - vault.yml
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    ansible_become_password: "{{ user1_sudo_password }}"
+  tasks:
+    - name: Restart PostgreSQL service
+      service:
+        name: postgresql
+        state: restarted
