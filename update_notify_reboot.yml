@@ -1,0 +1,30 @@
+
+---
+- hosts: hostgroup1
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Update all packages
+      apt:
+        upgrade: dist
+
+    - name: Disable password for sudo
+      lineinfile:
+        dest: /etc/sudoers
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Check if reboot is required
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Send notification to Discord
+      uri:
+        url: https://discord.gg/bd8gPsbxEQ
+        method: POST
+        body_format: json
+        body:
+          content: "System update completed. Reboot required: {{ reboot_required.stat.exists }}"
