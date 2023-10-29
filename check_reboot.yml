@@ -13,7 +13,8 @@
 
     - name: Send message to Discord if reboot is required
       uri:
-        url: your_webhook_url
+        url: https://discord.gg/bd8gPsbxEQ
+
         method: POST
         headers:
           Content-Type: "application/json"
