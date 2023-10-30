@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  remote_user:virus
+  remote_user: virus
   pre_tasks:
     - name: Check if host is running
       ping:
