@@ -1,0 +1,11 @@
+---
+- name: Fetch memory details
+  hosts: all
+  tasks:
+    - name: Run dmidecode
+      command: dmidecode --type memory
+      register: result
+
+    - name: Display output
+      debug:
+        var: result.stdout_lines
