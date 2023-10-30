@@ -1,0 +1,18 @@
+---
+- hosts: all
+  remote_user: virus
+  tasks:
+    - name: Check disk usage
+      shell: df -h / | awk 'NR==2 {print $5}' | sed 's/%//'
+      register: disk_usage
+
+    - name: Send email notification
+      mail:
+        host: DC01AH.QUANTUMGROUPGH.COM
+        port: 587
+        username: kweku4sta@gmail.com
+        password: #Fourstar1
+        to: kweku4sta@gmail.com
+        subject: Disk Space Alert
+        body: 'Warning: {{ ansible_hostname }} is using {{ disk_usage.stdout }}% of the disk space.'
+      when: disk_usage.stdout|int > 40
